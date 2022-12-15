@@ -11,7 +11,7 @@ const limiter = rateLimit({
 });
 
 export const config = {
-    runtime: 'experimental-edge',
+    runtime: 'nodejs',
 };
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
