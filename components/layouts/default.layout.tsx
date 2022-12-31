@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Script from 'next/script';
 import toast, { ToastBar, Toaster } from 'react-hot-toast';
 
 type Props = {
@@ -8,7 +7,7 @@ type Props = {
 
 export function DefaultLayout({ children }: Props) {
     return (
-        <div className="min-h-screen antialiased flex flex-col">
+        <div className="flex flex-col min-h-screen antialiased">
             {/* Head/Meta tags */}
             <Head>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
