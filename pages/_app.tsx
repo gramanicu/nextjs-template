@@ -1,4 +1,3 @@
-import { GlobalProvider } from '@contexts/global.context';
 import '@styles/globals.scss';
 import { NextPage } from 'next';
 import { appWithTranslation } from 'next-i18next';
@@ -31,11 +30,7 @@ function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
     const getLayout = Component.getLayout ?? (page => page);
 
-    return (
-        <GlobalProvider>
-            <ThemeProvider attribute="class">{getLayout(<Component {...pageProps} />)}</ThemeProvider>
-        </GlobalProvider>
-    );
+    return <ThemeProvider attribute="class">{getLayout(<Component {...pageProps} />)}</ThemeProvider>;
 }
 
 export default appWithTranslation(App);

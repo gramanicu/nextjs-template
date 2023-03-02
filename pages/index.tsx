@@ -1,14 +1,34 @@
+import { gql } from '@apollo/client';
 import { DefaultLayout } from '@components/layouts/default.layout';
+import client from '@lib/apollo/client';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTheme } from 'next-themes';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 export default function Home() {
     const { t } = useTranslation('common');
     const { resolvedTheme, setTheme } = useTheme();
+
+    useEffect(() => {
+        client
+            .query({
+                query: gql`
+                    query User {
+                        users {
+                            id
+                            name
+                            email
+                        }
+                    }
+                `,
+            })
+            .then(result => {
+                console.log(result);
+            });
+    }, []);
 
     return (
         <>

@@ -8,9 +8,12 @@
         "start": "next start",
         "lint": "next lint",
         "format": "prettier --check --ignore-path .gitignore .",
-        "format:fix": "prettier --write --ignore-path .gitignore ."
+        "format:fix": "prettier --write --ignore-path .gitignore .",
+        "codegen": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
+        "@apollo/client": "^3.7.3",
+        "@graphql-codegen/typescript-react-query": "^4.0.6",
         "@heroicons/react": "^2.0.13",
         "axios": "^1.2.2",
         "iron-session": "^6.2.0",
@@ -31,6 +34,12 @@
         "zustand": "^4.1.5"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^2.16.3",
+        "@graphql-codegen/client-preset": "1.2.5",
+        "@graphql-codegen/introspection": "^2.2.3",
+        "@graphql-codegen/typescript": "^2.8.7",
+        "@graphql-codegen/typescript-operations": "^2.5.12",
+        "@graphql-codegen/typescript-react-apollo": "^3.3.7",
         "@next/eslint-plugin-next": "^13.1.1",
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/line-clamp": "^0.4.0",
