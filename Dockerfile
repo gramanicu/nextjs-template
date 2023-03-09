@@ -1,31 +1,33 @@
-FROM node:18 AS dependencies
+FROM node:18-alpine AS base
 
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm i
 
-FROM node:18 AS build
+COPY package*.json ./
+RUN npm ci
 
+FROM base AS builder
 WORKDIR /app
-COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npx prisma generate
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
-FROM node:18 AS deploy
-
+FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-COPY --from=build /app/public ./public
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-EXPOSE 3000
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-ENV PORT 3000
+USER nextjs
 
 CMD ["node", "server.js"]

@@ -1,21 +1,22 @@
-import { IronSessionOptions } from 'iron-session';
-import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next';
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler } from 'next';
+import { IronSessionOptions } from 'iron-session'
+import { withIronSessionApiRoute, withIronSessionSsr } from 'iron-session/next'
+import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiHandler } from 'next'
 
-import { SESSION_COOKIE_NAME, SESSION_DURATION } from './constants';
+import { SESSION_COOKIE_NAME, SESSION_DURATION } from './constants'
 
 export const sessionOptions: IronSessionOptions = {
-    password: process.env.AUTH_SECRET as string,
-    cookieName: SESSION_COOKIE_NAME,
-    cookieOptions: {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        httpOnly: true,
-    },
-    ttl: SESSION_DURATION,
-};
+  password: process.env.AUTH_SECRET as string,
+  cookieName: SESSION_COOKIE_NAME,
+  cookieOptions: {
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    httpOnly: true
+  },
+  ttl: SESSION_DURATION
+}
 
 declare module 'iron-session' {
+    // eslint-disable-next-line no-unused-vars
     interface IronSessionData {
         user?: {
             id: string;
@@ -24,12 +25,12 @@ declare module 'iron-session' {
     }
 }
 
-export function withSessionRoute(handler: NextApiHandler) {
-    return withIronSessionApiRoute(handler, sessionOptions);
+export function withSessionRoute (handler: NextApiHandler) {
+  return withIronSessionApiRoute(handler, sessionOptions)
 }
 
-export function withSessionSsr<P extends { [key: string]: unknown } = { [key: string]: unknown }>(
-    handler: (context: GetServerSidePropsContext) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
+export function withSessionSsr<P extends { [key: string]: unknown } = { [key: string]: unknown }> (
+  handler: (context: GetServerSidePropsContext) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
 ) {
-    return withIronSessionSsr(handler, sessionOptions);
+  return withIronSessionSsr(handler, sessionOptions)
 }

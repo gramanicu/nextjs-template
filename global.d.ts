@@ -1,7 +1,9 @@
-export {};
+export {}
 
 declare global {
-    interface Window {
-        gtag: Gtag.Gtag;
-    }
+  // eslint-disable-next-line no-unused-vars
+  interface Window {
+    // eslint-disable-next-line no-undef
+    gtag: Gtag.Gtag;
+  }
 }
