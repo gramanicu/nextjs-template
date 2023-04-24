@@ -1,42 +1,11 @@
-import { gql } from '@apollo/client'
 import { DefaultLayout } from '@components/layouts/default.layout'
-import client from '@lib/apollo/client'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTheme } from 'next-themes'
 import Head from 'next/head'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 import toast from 'react-hot-toast'
 
 export default function Home () {
-  const { t } = useTranslation('common')
   const { resolvedTheme, setTheme } = useTheme()
-
-  const fetcher = async () => {
-    const data = await fetch('/api/test')
-    const json = await data.json()
-    console.log(json)
-  }
-
-  fetcher()
-
-  useEffect(() => {
-    client
-      .query({
-        query: gql`
-                    query User {
-                        users {
-                            id
-                            name
-                            email
-                        }
-                    }
-                `
-      })
-      .then((result: any) => {
-        console.log(result)
-      })
-  }, [])
 
   return (
     <>
@@ -57,9 +26,8 @@ export default function Home () {
             )
             setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
           }}
-          className="text-3xl font-bold"
-        >
-          {t('greet')}
+          className="text-3xl font-bold">
+          {'Hello there'}
         </h1>
       </div>
     </>
@@ -68,12 +36,4 @@ export default function Home () {
 
 Home.getLayout = function getLayout (page: ReactElement) {
   return <DefaultLayout>{page}</DefaultLayout>
-}
-
-export async function getServerSideProps ({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common']))
-    }
-  }
 }

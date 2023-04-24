@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
-const { i18n } = require('./next-i18next.config')
 const { nanoid } = require('nanoid')
 const crypto = require('crypto')
 
@@ -49,8 +48,6 @@ const nextConfig = {
   output: 'standalone',
   swcMinify: true,
   productionBrowserSourceMaps: true,
-
-  i18n,
   async headers () {
     return [
       {
